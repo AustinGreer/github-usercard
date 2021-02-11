@@ -4,18 +4,52 @@ import axios from "axios"
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
-*/
-axios.get('https://api.github.com/users/AustinGreer')
-.then(res => {
-  debugger
-})
-.catch(err => {
-  debugger
-})
-.then(() => {
-  console.log("it fired")
-})
 
+
+    userImg, 
+    userName, 
+    name, 
+    userLocation, 
+    userProfile, 
+    userFollowers, 
+    userFollowing, 
+    userBio
+*/
+
+
+const followersArray = ['ianbautista', 'ialkamal', 'NateTheDev1', 'ChadDiaz', 'rmjuarez12'];
+
+function getCards (user) {
+  axios.get(`https://api.github.com/users/${user}`)
+  .then(res => {
+    //debugger
+    
+    const cardsContainer = document.querySelector('.cards')
+    cardsContainer.appendChild(cardMaker({
+      userImg: res.data.avatar_url,
+      userName: res.data.name,
+      name: res.data.login,
+      userLocation: res.data.location,
+      userProfile: res.data.url,
+      userFollowers: res.data.followers,
+      userFollowing: res.data.following,
+      userBio: res.data.bio
+    }))
+  
+  })
+  .catch(err => {
+    debugger
+  })
+  .then(() => {
+    console.log("it fired")
+  })
+  
+}
+
+getCards('AustinGreer')
+followersArray.forEach(follower => {
+  getCards(follower)
+})
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -40,8 +74,7 @@ axios.get('https://api.github.com/users/AustinGreer')
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
 */
-
-const followersArray = [];
+//change 
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -62,7 +95,7 @@ const followersArray = [];
       </div>
     </div>
 */
-const userCard = (userObj) => {
+const cardMaker = (userObj) => {
   // destructure userObj
   const { 
     userImg, 
@@ -140,13 +173,4 @@ const userCard = (userObj) => {
     justsml
     luishrd
     bigknell
-
-    userImg, 
-    userName, 
-    name, 
-    userLocation, 
-    userProfile, 
-    userFollowers, 
-    userFollowing, 
-    userBio
 */
